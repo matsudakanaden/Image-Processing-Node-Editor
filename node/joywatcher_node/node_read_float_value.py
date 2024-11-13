@@ -13,8 +13,8 @@ import JoyWatcherAccessor as jw
 class Node(DpgNodeABC):
     _ver = '0.0.1'
 
-    node_label = 'Float Value'
-    node_tag = 'FloatValue'
+    node_label = 'Read JoyWatcher Tag Value'
+    node_tag = 'JWReadValue'
 
     def __init__(self):
         pass
@@ -35,6 +35,7 @@ class Node(DpgNodeABC):
         # 設定
         self._opencv_setting_dict = opencv_setting_dict
         small_window_w = self._opencv_setting_dict['input_window_width']
+        tagname = self._opencv_setting_dict['tagname']
 
         # ノード
         with dpg.node(
@@ -52,7 +53,7 @@ class Node(DpgNodeABC):
                     tag=tag_node_output01_value_name,
                     label="Tagname",
                     width=small_window_w - 94,
-                    default_value=0,
+                    default_value=tagname,
                     callback=callback,
                 )
                   
