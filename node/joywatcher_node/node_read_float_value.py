@@ -35,7 +35,7 @@ class Node(DpgNodeABC):
         # 設定
         self._opencv_setting_dict = opencv_setting_dict
         small_window_w = self._opencv_setting_dict['input_window_width']
-        tagname = self._opencv_setting_dict['tagname']
+        jw_tagname = self._opencv_setting_dict['jw_tagname']
 
         # ノード
         with dpg.node(
@@ -66,7 +66,9 @@ class Node(DpgNodeABC):
         node_image_dict,
         node_result_dict,
     ):
-        return None, None
+        jw.Connect()
+        value = jw.Read(jw_tagname)
+        return None, value
 
     def close(self, node_id):
         pass
