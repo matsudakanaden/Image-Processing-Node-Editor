@@ -39,7 +39,6 @@ class Node(DpgNodeABC):
         'YOLOX-Tiny(416x416)': YOLOX,
         'YOLOX-S(640x640)': YOLOX,
         'Light-Weight Person Detector': LWPDetector,
-        'YOLOX-Nano(416x416)': YOLOX,
         'FreeYOLO-Nano(640x640)': FreeYOLO,
         'FreeYOLO-Nano-CrowdHuman(640x640)': FreeYOLO,
     }
@@ -52,11 +51,12 @@ class Node(DpgNodeABC):
         _model_base_path + 'YOLOX/model/yolox_tiny.onnx',
         'YOLOX-S(640x640)':
         _model_base_path + 'YOLOX/model/yolox_s.onnx',
+        'Light-Weight Person Detector':
+        _model_base_path + 'LightWeightPersonDetector/model/model.onnx',
         'FreeYOLO-Nano(640x640)':
         _model_base_path + 'FreeYOLO/model/yolo_free_nano_640x640.onnx',
         'FreeYOLO-Nano-CrowdHuman(640x640)':
-        _model_base_path +
-        'FreeYOLO/model/yolo_free_nano_crowdhuman_640x640.onnx',
+        _model_base_path + 'FreeYOLO/model/yolo_free_nano_crowdhuman_640x640.onnx',
     }
     _model_class_name_list = {
         'YOLOX-Nano(416x416)': coco_class_names,
