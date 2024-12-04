@@ -11,10 +11,8 @@ from node_editor.util import dpg_get_value, dpg_set_value
 from node.node_abc import DpgNodeABC
 from node_editor.util import convert_cv_to_dpg
 
-
 def image_process(image):
     return image
-
 
 class Node(DpgNodeABC):
     _ver = '0.0.1'

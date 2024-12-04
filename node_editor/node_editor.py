@@ -112,6 +112,12 @@ class DpgNodeEditor(object):
                         callback=self._callback_file_import_menu,
                         user_data='Menu_File_Import',
                     )
+                    dpg.add_menu_item(
+                        tag='Menu_File_Delete_All_Nodes',
+                        label='Delete All Nodes',
+                        callback=self._callback_file_delete_all_nodes_menu,
+                        user_data='Menu_File_Delete_All_Nodes',
+                    )
 
                 # ノードメニュー生成
                 for menu_info in menu_dict.items():
@@ -169,7 +175,7 @@ class DpgNodeEditor(object):
 
             # インポート制限事項ポップアップ
             with dpg.window(
-                    label='Delete Files',
+                    label='Import Files',
                     modal=True,
                     show=False,
                     id='modal_file_import',
@@ -186,6 +192,34 @@ class DpgNodeEditor(object):
                         width=375,
                         callback=lambda: dpg.configure_item(
                             'modal_file_import',
+                            show=False,
+                        ),
+                    )
+
+            # 全ノード削除確認ポップアップ
+            with dpg.window(
+                    label='Delete All Nodes',
+                    modal=True,
+                    show=False,
+                    id='modal_file_delete_all_nodes',
+                    no_title_bar=True,
+                    pos=[52, 52],
+            ):
+                dpg.add_text(
+                    'Delete All Nodes?',
+                )
+                dpg.add_separator()
+                with dpg.group(horizontal=True):
+                    dpg.add_button(
+                        label='OK',
+                        width=75,
+                        callback=self._callback_file_delete_all_nodes,
+                    )
+                    dpg.add_button(
+                        label='Cancel',
+                        width=75,
+                        callback=lambda: dpg.configure_item(
+                            'modal_file_delete_all_nodes',
                             show=False,
                         ),
                     )
@@ -393,7 +427,7 @@ class DpgNodeEditor(object):
         dpg.show_item('file_export')
 
     def _callback_file_import_menu(self):
-        if self._node_id == 0:
+        if len((self.get_node_list())) == 0:
             dpg.show_item('file_import')
         else:
             dpg.configure_item('modal_file_import', show=True)
@@ -467,6 +501,20 @@ class DpgNodeEditor(object):
             print('    data            : ' + str(data))
             print('    setting_dict    : ', setting_dict)
             print()
+
+    def _callback_file_delete_all_nodes_menu(self):
+        if len((self.get_node_list())) != 0:
+            dpg.show_item('modal_file_delete_all_nodes')
+
+    def _callback_file_delete_all_nodes(self, sender, data):
+        dpg.configure_item(
+            'modal_file_delete_all_nodes',
+            show=False,
+        )
+
+        node_list = self.get_node_list()
+        for node in node_list:
+            dpg.delete_item(node)
 
     def _callback_save_last_pos(self):
         if len(dpg.get_selected_nodes(self._node_editor_tag)) > 0:
