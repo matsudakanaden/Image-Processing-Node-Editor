@@ -654,10 +654,14 @@ Image-Processing-Node-Editor で使用するには、各リポジトリのイン
 # ToDo
 - [ ] RGB Histgramノードのグラフ部分が常に最前面に表示される問題の調査
 - [ ] 複数ノードを接続したノードを削除した際に接続線が残る問題の調査
-- [ ] Import機能がノード追加前にしか利用できない挙動の修正
+- [ ] アナログメーター読み取り(V・Aメーター)
+- [ ] Ultralyticsノード追加(DeepLearningノード？)
+- [ ] Comming-Goneノード追加
+
 
 # Author
 高橋かずひと(https://twitter.com/KzhtTkhs)
+松田貴之(matsuda@kanaden.co.jp)
  
 # License 
 Image-Processing-Node-Editor is under [Apache-2.0 license](LICENSE).<br><br>
