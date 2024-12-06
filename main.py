@@ -176,7 +176,6 @@ def main():
         'DeepLearningNode': 'deep_learning_node',
         'AnalysisNode': 'analysis_node',
         'DrawNode': 'draw_node',
-        'NxWitnessNode': 'nxwitness_node',
         'OtherNode': 'other_node',
         'PreviewReleaseNode': 'preview_release_node'
     })

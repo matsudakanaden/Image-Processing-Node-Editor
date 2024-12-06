@@ -53,7 +53,7 @@ class Node(DpgNodeABC):
         'Road Segmentation ADAS 0001': _model_base_path +
         'road_segmentation_adas_0001/saved_model/model_float32.onnx',
         'Skin Clothes Hair Segmentation': _model_base_path +
-        'skin_clothes_hair_segmentation/model/DeepLabV3Plus(timm-mobilenetv3_small_100)_452_2.16M_0.8385/best_model_simplifier.onnx',
+        'skin_clothes_hair_segmentation/model/DeepLabV3Plus_timm-mobilenetv3_small/best_model_simplifier.onnx',
         'MediaPipe SelfieSegmentation(Normal)': None,
         'MediaPipe SelfieSegmentation(LandScape)': None,
     }
@@ -145,17 +145,17 @@ class Node(DpgNodeABC):
                     tag=tag_node_input02_value_name,
                 )
             if use_gpu:
-	            # CPU/GPU切り替え
-	            with dpg.node_attribute(
-	                    tag=tag_provider_select_name,
-	                    attribute_type=dpg.mvNode_Attr_Static,
-	            ):
-	                dpg.add_radio_button(
-	                    ("CPU", "GPU"),
-	                    tag=tag_provider_select_value_name,
-	                    default_value='CPU',
-	                    horizontal=True,
-	                )
+                # CPU/GPU切り替え
+                with dpg.node_attribute(
+                        tag=tag_provider_select_name,
+                        attribute_type=dpg.mvNode_Attr_Static,
+                ):
+                    dpg.add_radio_button(
+                        ("CPU", "GPU"),
+                        tag=tag_provider_select_value_name,
+                        default_value='CPU',
+                        horizontal=True,
+                    )
             # スコア閾値
             with dpg.node_attribute(
                     tag=tag_node_input03_name,
@@ -231,7 +231,7 @@ class Node(DpgNodeABC):
         # CPU/GPU選択状態取得
         provider = 'CPU'
         if use_gpu:
-        	provider = dpg_get_value(tag_provider_select_value_name)
+            provider = dpg_get_value(tag_provider_select_value_name)
 
         # モデル情報取得
         model_name = dpg_get_value(input_value02_tag)

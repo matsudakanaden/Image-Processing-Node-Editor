@@ -89,7 +89,7 @@ if __name__ == '__main__':
     cap = cv.VideoCapture(0)
 
     # Load model
-    model_path = 'model/DeepLabV3Plus(timm-mobilenetv3_small_100)_452_2.16M_0.8385/best_model_simplifier.onnx'
+    model_path = 'model/DeepLabV3Plus_timm-mobilenetv3_small/best_model_simplifier.onnx'
     model = SkinClothesHairSegmentation(model_path)
 
     score_th = 0.5

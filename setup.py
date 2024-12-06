@@ -60,8 +60,8 @@ setup(
         "Programming Language :: Python :: 3.12",
     ],
     project_urls={
-        "Source": "https://github.com/Kazuhito00/Image-Processing-Node-Editor",
-        "Tracker": "https://github.com/Kazuhito00/Image-Processing-Node-Editor/issues",
+        "Source": "https://github.com/matsudakanaden/Image-Processing-Node-Editor",
+        "Tracker": "https://github.com/matsudakanaden/Image-Processing-Node-Editor/issues",
     },
     entry_points={
         "console_scripts": [

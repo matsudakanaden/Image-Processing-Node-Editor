@@ -348,7 +348,7 @@ class Node(DpgNodeABC):
 
     def set_setting_dict(self, node_id, setting_dict):
         tag_node_name = str(node_id) + ':' + self.node_tag
-        input_value03_tag = tag_node_name + ':' + self.TYPE_INT + ':Input02Value'
+        input_value03_tag = tag_node_name + ':' + self.TYPE_INT + ':Input03Value'
 
         kernel_size = int(setting_dict[input_value03_tag])
 
