@@ -59,7 +59,7 @@ def create_event(server_url, username, password, source, caption, description):
 class Node(DpgNodeABC):
     _ver = '0.0.1'
 
-    node_label = 'Create Event'
+    node_label = 'Nx Witness Create Event'
     node_tag = 'NxwCreateEvent'
 
     _opencv_setting_dict = None

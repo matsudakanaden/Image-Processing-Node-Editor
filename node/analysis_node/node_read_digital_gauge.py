@@ -69,6 +69,9 @@ def image_process(frame):
     cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
     displayCnt = None
 
+    # Initialize the digits list to store the recognized digits
+    digits = []
+
     # loop over the contours
     for c in cnts:
         # approximate the contour
@@ -79,9 +82,12 @@ def image_process(frame):
             displayCnt = approx
             break
 
-    # extract the display, apply a perspective transform to it
-    warped = four_point_transform(gray, displayCnt.reshape(4, 2))
-    output = four_point_transform(image, displayCnt.reshape(4, 2))
+    try:
+        # extract the display, apply a perspective transform to it
+        warped = four_point_transform(gray, displayCnt.reshape(4, 2))
+        output = four_point_transform(image, displayCnt.reshape(4, 2))
+    except:
+        return frame, digits
 
     output = adjust_white_balance(output)
     output = correct_contrast(output)
@@ -114,9 +120,6 @@ def image_process(frame):
         print("No digit contours found. Adjust digit detection parameters.")  
         # Handle the case where no digit contours were found, e.g., skip processing or set a default value
         digitCnts = [] # or any other appropriate handling
-
-    # Initialize the digits list to store the recognized digits
-    digits = []
 
     # loop over each of the digits
     for c in digitCnts:
