@@ -22,6 +22,7 @@ class DpgNodeEditor(object):
     _node_instance_list = {}
     _node_list = []
     _node_link_list = []
+    _dpg_aliases = None
 
     _last_pos = None
 
@@ -233,6 +234,8 @@ class DpgNodeEditor(object):
                     callback=self._callback_mv_key_del,
                 )
 
+        self._dpg_aliases = dpg.get_aliases()
+
     def get_node_list(self):
         return self._node_list
 
@@ -433,7 +436,7 @@ class DpgNodeEditor(object):
             dpg.configure_item('modal_file_import', show=True)
 
     def _callback_file_import(self, sender, data):
-        if data['file_name'] != '.':
+        if data['file_name'] != '.' and data['file_name'] != '.json':
             # JSONファイルから読み込み
             setting_dict = None
             with open(data['file_path_name']) as fp:
@@ -505,6 +508,8 @@ class DpgNodeEditor(object):
     def _callback_file_delete_all_nodes_menu(self):
         if len((self.get_node_list())) != 0:
             dpg.show_item('modal_file_delete_all_nodes')
+        else:
+            self.delete_all_aliases()
 
     def _callback_file_delete_all_nodes(self, sender, data):
         dpg.configure_item(
@@ -512,9 +517,69 @@ class DpgNodeEditor(object):
             show=False,
         )
 
-        node_list = self.get_node_list()
-        for node in node_list:
-            dpg.delete_item(node)
+        self.delete_all_nodes()
+
+        if self._use_debug_print:
+            print('**** _callback_file_delete_all_nodes ****')
+            print('    self._node_list            :    ', self._node_list)
+            print('    self._node_link_list       : ', self._node_link_list)
+            print('    self._node_connection_dict : ',
+                  self._node_connection_dict)
+
+    def delete_node(self, item_id):
+        # ノード名を特定
+        node_id_name = dpg.get_item_alias(item_id)
+        node_id, node_name = node_id_name.split(':')
+
+        #if node_name != 'ExecPythonCode':
+        if node_name != '':
+            # ノード終了処理
+            node_instance = self.get_node_instance(node_name)
+            node_instance.close(node_id)
+            # ノードリストから削除
+            self._node_list.remove(node_id_name)
+            # ノードリンクリストから削除
+            copy_node_link_list = copy.deepcopy(self._node_link_list)
+            for link_info in copy_node_link_list:
+                source_node = link_info[0].split(':')[:2]
+                source_node = ':'.join(source_node)
+                destination_node = link_info[1].split(':')[:2]
+                destination_node = ':'.join(destination_node)
+
+                if source_node == node_id_name or destination_node == node_id_name:
+                    self._node_link_list.remove(link_info)
+
+            # ノードグラフ再生成
+            self._node_connection_dict = self._sort_node_graph(
+                self._node_list,
+                self._node_link_list,
+            )
+
+            # アイテム削除
+            dpg.delete_item(item_id)
+            try:
+                dpg.remove_alias(node_id_name)
+            except:
+                pass
+
+    def delete_all_aliases(self):
+        aliases = dpg.get_aliases()
+        for alias in aliases:
+            if not alias in self._dpg_aliases:
+                dpg.remove_alias(alias)
+
+    def delete_all_nodes(self):
+        self.set_terminate_flag()
+
+        while 0 < len(self.get_node_list()):
+            node_id = dpg.get_alias_id(self.get_node_list()[0])
+            self.delete_node(node_id)
+
+        self._node_link_list = []
+
+        self.set_terminate_flag(False)
+
+        self.delete_all_aliases()
 
     def _callback_save_last_pos(self):
         if len(dpg.get_selected_nodes(self._node_editor_tag)) > 0:
@@ -522,38 +587,12 @@ class DpgNodeEditor(object):
                 dpg.get_selected_nodes(self._node_editor_tag)[0])
 
     def _callback_mv_key_del(self):
+        self.set_terminate_flag()
+
         if len(dpg.get_selected_nodes(self._node_editor_tag)) > 0:
             # 選択中のノードのアイテムIDを取得
             item_id = dpg.get_selected_nodes(self._node_editor_tag)[0]
-            # ノード名を特定
-            node_id_name = dpg.get_item_alias(item_id)
-            node_id, node_name = node_id_name.split(':')
-
-            if node_name != 'ExecPythonCode':
-                # ノード終了処理
-                node_instance = self.get_node_instance(node_name)
-                node_instance.close(node_id)
-                # ノードリストから削除
-                self._node_list.remove(node_id_name)
-                # ノードリンクリストから削除
-                copy_node_link_list = copy.deepcopy(self._node_link_list)
-                for link_info in copy_node_link_list:
-                    source_node = link_info[0].split(':')[:2]
-                    source_node = ':'.join(source_node)
-                    destination_node = link_info[1].split(':')[:2]
-                    destination_node = ':'.join(destination_node)
-
-                    if source_node == node_id_name or destination_node == node_id_name:
-                        self._node_link_list.remove(link_info)
-
-                # ノードグラフ再生成
-                self._node_connection_dict = self._sort_node_graph(
-                    self._node_list,
-                    self._node_link_list,
-                )
-
-                # アイテム削除
-                dpg.delete_item(item_id)
+            self.delete_node(item_id)
 
         if len(dpg.get_selected_links(self._node_editor_tag)) > 0:
             self._node_link_list.remove([
@@ -568,9 +607,15 @@ class DpgNodeEditor(object):
 
             dpg.delete_item(dpg.get_selected_links(self._node_editor_tag)[0])
 
+        if len(self.get_node_list()) == 0:
+            self.delete_all_aliases()
+
         if self._use_debug_print:
             print('**** _callback_mv_key_del ****')
             print('    self._node_list            :    ', self._node_list)
             print('    self._node_link_list       : ', self._node_link_list)
             print('    self._node_connection_dict : ',
                   self._node_connection_dict)
+
+        self.set_terminate_flag(False)
+

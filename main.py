@@ -45,8 +45,10 @@ def async_main(node_editor):
 
     # メインループ
     while not node_editor.get_terminate_flag():
-        update_node_info(node_editor, node_image_dict, node_result_dict)
-
+        try:
+            update_node_info(node_editor, node_image_dict, node_result_dict)
+        except:
+            pass
 
 def update_node_info(
     node_editor,
@@ -82,17 +84,19 @@ def update_node_info(
                 )
             except Exception as e:
                 print(e)
-                sys.exit()
+                #sys.exit()
         else:
-            image, result = node_instance.update(
-                node_id,
-                connection_list,
-                node_image_dict,
-                node_result_dict,
-            )
+            try:
+                image, result = node_instance.update(
+                    node_id,
+                    connection_list,
+                    node_image_dict,
+                    node_result_dict,
+                )
+            except Exception as e:
+                print(e)
         node_image_dict[node_id_name] = copy.deepcopy(image)
         node_result_dict[node_id_name] = copy.deepcopy(result)
-
 
 def main():
 

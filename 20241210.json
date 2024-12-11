@@ -1,0 +1,54 @@
+{
+    "node_list": [
+        "1:Image",
+        "3:DigitalGaugeReader1",
+        "4:SimpleFilter"
+    ],
+    "link_list": [
+        [
+            "1:Image:Image:Output01",
+            "4:SimpleFilter:Image:Input01"
+        ],
+        [
+            "4:SimpleFilter:Image:Output01",
+            "3:DigitalGaugeReader1:Image:Input01"
+        ]
+    ],
+    "1:Image": {
+        "id": "1",
+        "name": "Image",
+        "setting": {
+            "ver": "0.0.1",
+            "pos": [
+                0,
+                0
+            ]
+        }
+    },
+    "3:DigitalGaugeReader1": {
+        "id": "3",
+        "name": "DigitalGaugeReader1",
+        "setting": {
+            "ver": "0.0.1",
+            "pos": [
+                661,
+                87
+            ]
+        }
+    },
+    "4:SimpleFilter": {
+        "id": "4",
+        "name": "SimpleFilter",
+        "setting": {
+            "ver": "0.0.1",
+            "pos": [
+                316,
+                82
+            ],
+            "4:SimpleFilter:Float:Input02Value": 0.0,
+            "4:SimpleFilter:Float:Input03Value": 0.0,
+            "4:SimpleFilter:Float:Input04Value": -0.0689999982714653,
+            "4:SimpleFilter:Float:Input05Value": 0.0
+        }
+    }
+}

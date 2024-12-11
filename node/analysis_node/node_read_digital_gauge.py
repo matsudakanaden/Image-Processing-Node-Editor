@@ -292,15 +292,6 @@ class Node(DpgNodeABC):
         connection_info_src = ''
         for connection_info in connection_list:
             connection_type = connection_info[0].split(':')[2]
-            if connection_type == self.TYPE_INT:
-                # 接続タグ取得
-                source_tag = connection_info[0] + 'Value'
-                destination_tag = connection_info[1] + 'Value'
-                # 値更新
-                input_value = int(dpg_get_value(source_tag))
-                input_value = max([self._min_val, input_value])
-                input_value = min([self._max_val, input_value])
-                dpg_set_value(destination_tag, input_value)
             if connection_type == self.TYPE_IMAGE:
                 # 画像取得元のノード名(ID付き)を取得
                 connection_info_src = connection_info[0]
