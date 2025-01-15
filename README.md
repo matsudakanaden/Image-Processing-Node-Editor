@@ -76,6 +76,28 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
 <table>
     <tr>
         <td width="200">
+            RTSP
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/178135453-293836c2-e38d-476f-9b64-ea654470ba2e.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            ネットワークカメラのRTSP入力を読み込み、フレーム毎の画像を出力するノード<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Screen Capture
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/216200610-5a5714c0-99ac-4ec9-a56e-90ae99088815.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            デスクトップ画面をキャプチャして出力するノード<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
             Image
         </td>
         <td width="320">
@@ -84,6 +106,38 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
         <td width="760">
             静止画(bmp, jpg, png, gif)を読み込み、画像を出力するノード<br>
             「Select Image」ボタンでファイルダイアログをオープン
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Float Value
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/172031323-98ae0273-7083-48d0-9ef2-f02af7fde482.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            フロート値を出力するノード<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Int Value
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/172031284-95255053-6eaf-4298-a392-062129e698f6.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            整数値を出力するノード<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Text Value
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            テキストを出力するノード<br>
         </td>
     </tr>
     <tr>
@@ -126,35 +180,16 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
     </tr>
     <tr>
         <td width="200">
-            RTSP
+            YouTube
         </td>
         <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/178135453-293836c2-e38d-476f-9b64-ea654470ba2e.png" loading="lazy" width="300px">
+            <img src="https://user-images.githubusercontent.com/37477845/179450682-f7cc8237-e9d8-4c0f-b5d8-d2caac453f04.png" loading="lazy" width="300px">
         </td>
         <td width="760">
-            ネットワークカメラのRTSP入力を読み込み、フレーム毎の画像を出力するノード<br>
-        </td>
-    </tr>
-    <tr>
-        <td width="200">
-            Int Value
-        </td>
-        <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/172031284-95255053-6eaf-4298-a392-062129e698f6.png" loading="lazy" width="300px">
-        </td>
-        <td width="760">
-            整数値を出力するノード<br>
-        </td>
-    </tr>
-    <tr>
-        <td width="200">
-            Float Value
-        </td>
-        <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/172031323-98ae0273-7083-48d0-9ef2-f02af7fde482.png" loading="lazy" width="300px">
-        </td>
-        <td width="760">
-            フロート値を出力するノード<br>
+            YouTubeを読み込み、画像を出力するノード<br>
+            URL欄にYouTube動画のURLを指定して「Start」ボタンを押してください<br>
+            再生が始まるまでに少々時間がかかります<br>
+            Interval(ms)でYouTube読み込み間隔を指定します
         </td>
     </tr>
 </table>
@@ -436,6 +471,19 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
             出力画像は未加工の画像
         </td>
     </tr>
+    <tr>
+        <td width="200">
+            YOLO(ultralytics)
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            入力画像に対しUltralytics YOLOによる推論を実行するノード<br>
+            対応しているタスクは物体検出,セグメンテーション,姿勢推定,OBB<br>
+            node\deep_learning_node\modelsに学習済みモデル(ONNX形式あるいはpt形式)を追加可能<br>
+            出力画像は未加工の画像
+        </td>
+    </tr>
 </table>
 </details>
 
@@ -443,6 +491,30 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
 <summary>Analysis Node</summary>
 
 <table>
+    <tr>
+        <td width="200">
+            AKAZE Similarity
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            AKAZE(Accelerated KAZE)特徴量検出器を使って<br>
+            2つの画像の類似度を算出するノード<br>
+            ※値が小さい方が類似度が高い
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            BRISQUE
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/173472170-cc47e04e-80e7-4126-949f-a0f034b9f0b8.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            BRISQUEを用いた画質評価を行うノード<br>
+            ※数値が高いほど悪い
+        </td>
+    </tr>
     <tr>
         <td width="200">
             FPS
@@ -453,6 +525,36 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
         <td width="760">
             ノードの処理時間(ms)を元にFPSを算出するノード<br>
             「Add Slot」で処理時間入力端子を追加可能
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Analog Gauge Reader 1
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            アナログ計器の指示値を算出するノード
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Digital Gauge Reader 1
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            デジタル計器の数値を算出するノード
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Realtime Trend
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            入力値をリアルタイムのトレンドグラフとして表示するノード
         </td>
     </tr>
     <tr>
@@ -469,14 +571,24 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
     </tr>
     <tr>
         <td width="200">
-            BRISQUE
+            SSIM Similarity
         </td>
         <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/173472170-cc47e04e-80e7-4126-949f-a0f034b9f0b8.png" loading="lazy" width="300px">
         </td>
         <td width="760">
-            BRISQUEを用いた画質評価を行うノード<br>
-            ※数値が高いほど悪い
+            SSIM(構造的類似性)による2つの画像の類似度を算出するノード<br>
+            ※1に近いほど類似度が高い
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Template Matching
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            入力画像(Target image)の中からテンプレート画像(Template image)と<br>
+            最も類似する場所を探索するノード
         </td>
     </tr>
 </table>
@@ -497,6 +609,27 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
             ClassificationノードやObject Detectionノードなどの<br>
             未加工画像を出力するノードの画像に対して、<br>
             解析結果を描画する
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Image Alignment
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            2つの類似画像の位置を合わせるノード<br>
+            ※Target imageが変形される
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Image Alpha Blend
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            2つの画像をアルファブレンドするノード
         </td>
     </tr>
     <tr>
@@ -558,6 +691,36 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
 <table>
     <tr>
         <td width="200">
+            Float to Text
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            フロート値をテキストに変換するノード
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Int to Text
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            整数値をテキストに変換するノード
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Nx Witness Create Event
+        </td>
+        <td width="320">
+        </td>
+        <td width="760">
+            Nx Witnessサーバに汎用イベントを発行するノード
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
             ON/OFF Switch
         </td>
         <td width="320">
@@ -611,52 +774,14 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
             出力画像用の変数は「output_image」
         </td>
     </tr>
-    <tr>
-        <td width="200">
-            Screen Capture
-        </td>
-        <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/216200610-5a5714c0-99ac-4ec9-a56e-90ae99088815.png" loading="lazy" width="300px">
-        </td>
-        <td width="760">
-            デスクトップ全画面をキャプチャして出力するノード<br>
-        </td>
-    </tr>
 </table>
 </details>
 
-# Node(Another repository)
-他リポジトリで公開しているノードです。<br>
-Image-Processing-Node-Editor で使用するには、各リポジトリのインストール方法に従ってください。
-
-<details>
-<summary>Input Node</summary>
-
-<table>
-    <tr>
-        <td width="200">
-            <a href=https://github.com/Kazuhito00/IPNE-YouTube-Input-Node>YouTube</a> 
-        </td>
-        <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/179450682-f7cc8237-e9d8-4c0f-b5d8-d2caac453f04.png" loading="lazy" width="300px">
-        </td>
-        <td width="760">
-            YouTubeを読み込み、画像を出力するノード<br>
-            URL欄にYouTube動画のURLを指定して「Start」ボタンを押してください<br>
-            再生が始まるまでに少々時間がかかります<br>
-            Interval(ms)でYouTube読み込み間隔を指定します
-        </td>
-    </tr>
-</table>
-
-</details>
 
 # ToDo
 - [ ] RGB Histgramノードのグラフ部分が常に最前面に表示される問題の調査
 - [ ] 複数ノードを接続したノードを削除した際に接続線が残る問題の調査
 - [ ] アナログメーター読み取り(V・Aメーター)
-- [ ] Ultralyticsノード追加(DeepLearningノード？)
-- [ ] Comming-Goneノード追加
 
 
 # Author
