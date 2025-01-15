@@ -315,6 +315,9 @@ def draw_semantic_segmentation_info(
 def draw_pose_estimation_info(model_name, image, results_list, score_th):
     debug_image = copy.deepcopy(image)
 
+    yolo_nodes = [
+        'YOLO Pose',
+    ]
     move_net_nodes = [
         'MoveNet(SinglePose Lightning)',
         'MoveNet(SinglePose Thunder)',
@@ -330,7 +333,9 @@ def draw_pose_estimation_info(model_name, image, results_list, score_th):
         'MediaPipe Pose(Complexity2)',
     ]
 
-    if model_name in move_net_nodes:
+    if model_name in yolo_nodes:
+        debug_image = draw_yolo_pose_info(debug_image, results_list, score_th)
+    elif model_name in move_net_nodes:
         debug_image = draw_movenet_info(debug_image, results_list, score_th)
     elif model_name in mediapipe_hands_nodes:
         debug_image = draw_mediapipe_hands_info(debug_image, results_list)
@@ -343,6 +348,78 @@ def draw_pose_estimation_info(model_name, image, results_list, score_th):
 
     return debug_image
 
+def draw_yolo_pose_info(image, results, score_th):
+    # 色定義
+    pose_palette = [
+        (0, 128, 255),
+        (51, 153, 255),
+        (102, 178, 255),
+        (0, 230, 230),
+        (255, 153, 255),
+        (255, 204, 153),
+        (255, 102, 255),
+        (255, 51, 255),
+        (255, 178, 102),
+        (255, 153, 51),
+        (153, 153, 255),
+        (102, 102, 255),
+        (51, 51, 255),
+        (153, 255, 153),
+        (102, 255, 102),
+        (51, 255, 51),
+        (0, 255, 0),
+        (255, 0, 0),
+        (0, 0, 255),
+        (255, 255, 255)
+    ]
+
+    # キーポイント接続定義
+    skeleton = [
+        (15, 13),
+        (13, 11),
+        (16, 14),
+        (14, 12),
+        (11, 12),
+        (5, 11),
+        (6, 12),
+        (5, 6),
+        (5, 7),
+        (6, 8),
+        (7, 9),
+        (8, 10),
+        (1, 2),
+        (0, 1),
+        (0, 2),
+        (1, 3),
+        (2, 4),
+        (3, 5),
+        (4, 6)
+    ]
+
+    kpt_index = [16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]
+    limb_index = [9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]
+
+    # 結果の処理
+    for result in results:
+        keypoints = result.keypoints
+
+        for kps in keypoints:
+            keypoints_data = kps.data[0]
+            valid_keypoints = keypoints_data[(keypoints_data[:, 0] != 0) & (keypoints_data[:, 1] != 0) & (keypoints_data[:, 2] >= score_th)]
+
+            # キーポイントの描画
+            for i, (x, y, _) in enumerate(valid_keypoints):
+                cv2.circle(image, (int(x), int(y)), 5, pose_palette[kpt_index[i]], -1, lineType=cv2.LINE_AA)
+
+            # 接続線の描画
+            for sk in skeleton:
+                start, end = sk
+                if start < len(valid_keypoints) and end < len(valid_keypoints):
+                    start_point = tuple(map(int, valid_keypoints[start][:2]))
+                    end_point = tuple(map(int, valid_keypoints[end][:2]))
+                    cv2.line(image, start_point, end_point, pose_palette[limb_index[start]], 2, lineType=cv2.LINE_AA)
+
+    return image
 
 def draw_mediapipe_hands_info(image, results_list):
     for results in results_list:

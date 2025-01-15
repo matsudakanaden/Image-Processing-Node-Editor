@@ -1,4 +1,5 @@
 opencv-contrib-python>=4.5.5.64
+onnxruntime
 onnxruntime-gpu>=1.12.0
 dearpygui>=1.11.0
 mediapipe>=0.8.10
@@ -6,3 +7,5 @@ protobuf>=3.20.0
 filterpy>=1.4.5
 imutils
 requests
+ultralytics
+yt_dlp

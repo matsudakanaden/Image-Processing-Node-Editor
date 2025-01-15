@@ -12,7 +12,7 @@ from node_editor.util import dpg_get_value, dpg_set_value
 from node.node_abc import DpgNodeABC
 from node_editor.util import convert_cv_to_dpg
 
-from node.deep_learning_node.object_detection.YOLOX.yolox import YOLOX
+from node.deep_learning_node.object_detection.ultralytics.ultralytics import YOLO_Detect
 from node.deep_learning_node.object_detection.LightWeightPersonDetector.detector import LWPDetector
 from node.deep_learning_node.object_detection.FreeYOLO.freeyolo import FreeYOLO
 
@@ -35,35 +35,23 @@ class Node(DpgNodeABC):
 
     # モデル設定
     _model_class = {
-        'YOLOX-Nano(416x416)': YOLOX,
-        'YOLOX-Tiny(416x416)': YOLOX,
-        'YOLOX-S(640x640)': YOLOX,
+        'YOLO': YOLO_Detect,
         'Light-Weight Person Detector': LWPDetector,
-        'FreeYOLO-Nano(640x640)': FreeYOLO,
         'FreeYOLO-Nano-CrowdHuman(640x640)': FreeYOLO,
     }
     _model_base_path = os.path.dirname(
         os.path.abspath(__file__)) + '/object_detection/'
     _model_path_setting = {
-        'YOLOX-Nano(416x416)':
-        _model_base_path + 'YOLOX/model/yolox_nano.onnx',
-        'YOLOX-Tiny(416x416)':
-        _model_base_path + 'YOLOX/model/yolox_tiny.onnx',
-        'YOLOX-S(640x640)':
-        _model_base_path + 'YOLOX/model/yolox_s.onnx',
+        'YOLO':
+        _model_base_path + 'ultralytics/model/yolov8n.onnx',
         'Light-Weight Person Detector':
         _model_base_path + 'LightWeightPersonDetector/model/model.onnx',
-        'FreeYOLO-Nano(640x640)':
-        _model_base_path + 'FreeYOLO/model/yolo_free_nano_640x640.onnx',
         'FreeYOLO-Nano-CrowdHuman(640x640)':
         _model_base_path + 'FreeYOLO/model/yolo_free_nano_crowdhuman_640x640.onnx',
     }
     _model_class_name_list = {
-        'YOLOX-Nano(416x416)': coco_class_names,
-        'YOLOX-Tiny(416x416)': coco_class_names,
-        'YOLOX-S(640x640)': coco_class_names,
+        'YOLO': coco_class_names,
         'Light-Weight Person Detector': coco_class_names_only_person,
-        'FreeYOLO-Nano(640x640)': coco_class_names,
         'FreeYOLO-Nano-CrowdHuman(640x640)': coco_class_names_only_person,
     }
 

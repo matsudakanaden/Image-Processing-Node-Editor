@@ -4,6 +4,7 @@ import os
 import time
 
 import cv2
+import cv2.quality
 import numpy as np
 import dearpygui.dearpygui as dpg
 
@@ -14,6 +15,8 @@ from node_editor.util import convert_cv_to_dpg
 
 
 def image_process(image, model_path, range_path):
+    #brisque = cv2.quality.QualityBRISQUE()
+    #score = brisque.compute(image, model_path, range_path)
     score = cv2.quality.QualityBRISQUE_compute(image, model_path, range_path)
     return score
 

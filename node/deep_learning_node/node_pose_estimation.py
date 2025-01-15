@@ -12,6 +12,7 @@ from node_editor.util import dpg_get_value, dpg_set_value
 from node.node_abc import DpgNodeABC
 from node_editor.util import convert_cv_to_dpg
 
+from node.deep_learning_node.pose_estimation.ultralytics_pose.ultralytics_pose import YOLO_Pose
 from node.deep_learning_node.pose_estimation.movenet.movenet import (
     MoveNetSinglePoseLightning,
     MoveNetSinglePoseThunder,
@@ -43,6 +44,7 @@ class Node(DpgNodeABC):
 
     # モデル設定
     _model_class = {
+        'YOLO Pose': YOLO_Pose,
         'MoveNet(SinglePose Lightning)': MoveNetSinglePoseLightning,
         'MoveNet(SinglePose Thunder)': MoveNetSinglePoseThunder,
         'MoveNet(MulitPose Lightning)': MoveNetMultiPoseLightning,
@@ -54,6 +56,7 @@ class Node(DpgNodeABC):
     }
     _model_base_path = os.path.dirname(os.path.abspath(__file__)) + '/pose_estimation/'
     _model_path_setting = {
+        'YOLO Pose': _model_base_path + 'ultralytics_pose/model/yolov8n-pose.onnx',
         'MoveNet(SinglePose Lightning)':
         _model_base_path + 'movenet/model/movenet_singlepose_lightning_4.onnx',
         'MoveNet(SinglePose Thunder)':
@@ -155,17 +158,17 @@ class Node(DpgNodeABC):
                     tag=tag_node_input02_value_name,
                 )
             if use_gpu:
-	            # CPU/GPU切り替え
-	            with dpg.node_attribute(
-	                    tag=tag_provider_select_name,
-	                    attribute_type=dpg.mvNode_Attr_Static,
-	            ):
-	                dpg.add_radio_button(
-	                    ("CPU", "GPU"),
-	                    tag=tag_provider_select_value_name,
-	                    default_value='CPU',
-	                    horizontal=True,
-	                )
+                # CPU/GPU切り替え
+                with dpg.node_attribute(
+                        tag=tag_provider_select_name,
+                        attribute_type=dpg.mvNode_Attr_Static,
+                ):
+                    dpg.add_radio_button(
+                        ("CPU", "GPU"),
+                        tag=tag_provider_select_value_name,
+                        default_value='CPU',
+                        horizontal=True,
+                    )
             # スコア閾値
             with dpg.node_attribute(
                     tag=tag_node_input03_name,
@@ -241,7 +244,7 @@ class Node(DpgNodeABC):
         # CPU/GPU選択状態取得
         provider = 'CPU'
         if use_gpu:
-        	provider = dpg_get_value(tag_provider_select_value_name)
+            provider = dpg_get_value(tag_provider_select_value_name)
 
         # モデル情報取得
         model_name = dpg_get_value(input_value02_tag)
