@@ -254,13 +254,13 @@ class Node(DpgNodeABC):
 
         # 描画
         if frame is not None and results is not None:
+            debug_frame = copy.deepcopy(frame)
             debug_frame = results[0].plot()
             texture = convert_cv_to_dpg(
                 debug_frame,
                 small_window_w,
                 small_window_h,
             )
-            frame = debug_frame
             dpg_set_value(output_value01_tag, texture)
 
         return frame, results

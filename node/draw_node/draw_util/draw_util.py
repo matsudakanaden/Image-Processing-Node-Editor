@@ -12,6 +12,7 @@ def draw_info(node_name, node_result, image):
     face_detection_nodes = ['FaceDetection']
     multi_object_tracking_nodes = ['MultiObjectTracking']
     qr_code_detection_nodes = ['QRCodeDetection']
+    yolo_ultralytics_nodes = ['YOLO_ultralytics']
 
     debug_image = copy.deepcopy(image)
     if node_name in classification_nodes:
@@ -113,6 +114,8 @@ def draw_info(node_name, node_result, image):
             texts,
             bboxes,
         )
+    elif node_name in yolo_ultralytics_nodes:
+        debug_image = node_result[0].plot()
 
     return debug_image
 
