@@ -137,6 +137,31 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
     </tr>
     <tr>
         <td width="200">
+            Screen Capture
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/216200610-5a5714c0-99ac-4ec9-a56e-90ae99088815.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            デスクトップ画面をキャプチャして出力するノード<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            YouTube
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/179450682-f7cc8237-e9d8-4c0f-b5d8-d2caac453f04.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            YouTubeを読み込み、画像を出力するノード<br>
+            URL欄にYouTube動画のURLを指定して「Start」ボタンを押してください<br>
+            再生が始まるまでに少々時間がかかります<br>
+            Interval(ms)でYouTube読み込み間隔を指定します
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
             Int Value
         </td>
         <td width="320">
@@ -155,6 +180,17 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
         </td>
         <td width="760">
             フロート値を出力するノード<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="200">
+            Text Value
+        </td>
+        <td width="320">
+            <img src="https://user-images.githubusercontent.com/37477845/172031323-98ae0273-7083-48d0-9ef2-f02af7fde482.png" loading="lazy" width="300px">
+        </td>
+        <td width="760">
+            テキストを出力するノード<br>
         </td>
     </tr>
 </table>
@@ -611,17 +647,6 @@ Exportで出力したノード設定(jsonファイル)を読み込む<br>
             出力画像用の変数は「output_image」
         </td>
     </tr>
-    <tr>
-        <td width="200">
-            Screen Capture
-        </td>
-        <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/216200610-5a5714c0-99ac-4ec9-a56e-90ae99088815.png" loading="lazy" width="300px">
-        </td>
-        <td width="760">
-            デスクトップ全画面をキャプチャして出力するノード<br>
-        </td>
-    </tr>
 </table>
 </details>
 
@@ -632,31 +657,12 @@ Image-Processing-Node-Editor で使用するには、各リポジトリのイン
 <details>
 <summary>Input Node</summary>
 
-<table>
-    <tr>
-        <td width="200">
-            <a href=https://github.com/Kazuhito00/IPNE-YouTube-Input-Node>YouTube</a> 
-        </td>
-        <td width="320">
-            <img src="https://user-images.githubusercontent.com/37477845/179450682-f7cc8237-e9d8-4c0f-b5d8-d2caac453f04.png" loading="lazy" width="300px">
-        </td>
-        <td width="760">
-            YouTubeを読み込み、画像を出力するノード<br>
-            URL欄にYouTube動画のURLを指定して「Start」ボタンを押してください<br>
-            再生が始まるまでに少々時間がかかります<br>
-            Interval(ms)でYouTube読み込み間隔を指定します
-        </td>
-    </tr>
-</table>
-
 </details>
 
 # ToDo
 - [ ] RGB Histgramノードのグラフ部分が常に最前面に表示される問題の調査
 - [ ] 複数ノードを接続したノードを削除した際に接続線が残る問題の調査
 - [ ] アナログメーター読み取り(V・Aメーター)
-- [ ] Ultralyticsノード追加(DeepLearningノード？)
-- [ ] Comming-Goneノード追加
 
 
 # Author
