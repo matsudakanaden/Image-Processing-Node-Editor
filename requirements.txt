@@ -9,3 +9,4 @@ imutils
 requests
 ultralytics
 yt_dlp
+pupil-apriltags
