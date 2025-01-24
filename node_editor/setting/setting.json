@@ -1,8 +1,9 @@
 {
+    "max_device_count": 2,
     "webcam_width": 1280,
     "webcam_height": 720,
-    "editor_width": 1280,
-    "editor_height": 720,
+    "editor_width": 1600,
+    "editor_height": 960,
     "input_window_width": 240,
     "input_window_height": 135,
     "process_width": 240,

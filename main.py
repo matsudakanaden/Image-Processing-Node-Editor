@@ -18,6 +18,7 @@ except ImportError:
     from node_editor.util import check_camera_connection
     from node_editor.node_editor import DpgNodeEditor
 
+os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -110,12 +111,13 @@ def main():
     opencv_setting_dict = None
     with open(setting) as fp:
         opencv_setting_dict = json.load(fp)
+    max_device_count = opencv_setting_dict['max_device_count']
     webcam_width = opencv_setting_dict['webcam_width']
     webcam_height = opencv_setting_dict['webcam_height']
 
     # 接続カメラチェック
     print('**** Check Camera Connection ********')
-    device_no_list = check_camera_connection()
+    device_no_list = check_camera_connection(max_device_count)
     camera_capture_list = []
     for device_no in device_no_list:
         video_capture = cv2.VideoCapture(device_no)

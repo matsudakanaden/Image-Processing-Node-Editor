@@ -54,9 +54,8 @@ def correct_contrast(image: np.ndarray) -> np.ndarray:
     ]).astype("uint8")
     return cv2.LUT(image, g_table)
 
-def image_process(frame):
-    # pre-process the image by resizing it, converting it to
-    # graycale, blurring it, and computing an edge map
+def image_process(frame, digit_width):
+    # pre-process the image by resizing it, converting it to graycale, blurring it, and computing an edge map
     image = imutils.resize(frame, height=500)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -109,7 +108,7 @@ def image_process(frame):
         # compute the bounding box of the contour
         (x, y, w, h) = cv2.boundingRect(c)
         # if the contour is sufficiently large, it must be a digit
-        if w >= 15 and (h >= 30 and h <= 40):
+        if w >= digit_width and (h >= digit_width * 1.5 and h <= digit_width * 2.5):
             digitCnts.append(c)
 
     # sort the contours from left-to-right, then initialize the actual digits themselves
@@ -196,6 +195,8 @@ class Node(DpgNodeABC):
         tag_node_name = str(node_id) + ':' + self.node_tag
         tag_node_input01_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Input01'
         tag_node_input01_value_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Input01Value'
+        tag_node_input02_name = tag_node_name + ':' + self.TYPE_INT + ':Input02'
+        tag_node_input02_value_name = tag_node_name + ':' + self.TYPE_INT + ':Input02Value'
         tag_node_output01_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01'
         tag_node_output01_value_name = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01Value'
         tag_node_output02_name = tag_node_name + ':' + self.TYPE_TIME_MS + ':Output02'
@@ -243,6 +244,20 @@ class Node(DpgNodeABC):
                     tag=tag_node_input01_value_name,
                     default_value='Input BGR image',
                 )
+            # デジタル数字の幅
+            with dpg.node_attribute(
+                    tag=tag_node_input02_name,
+                    attribute_type=dpg.mvNode_Attr_Input,
+            ):
+                dpg.add_slider_int(
+                    tag=tag_node_input02_value_name,
+                    label="Digit Width",
+                    width=small_window_w - 80,
+                    min_value=5,
+                    max_value=100,
+                    default_value=15,
+                    callback=None,
+                )
             # 画像
             with dpg.node_attribute(
                     tag=tag_node_output01_name,
@@ -279,6 +294,7 @@ class Node(DpgNodeABC):
         node_result_dict,
     ):
         tag_node_name = str(node_id) + ':' + self.node_tag
+        input_value02_tag = tag_node_name + ':' + self.TYPE_INT + ':Input02Value'
         output_value01_tag = tag_node_name + ':' + self.TYPE_IMAGE + ':Output01Value'
         output_value02_tag = tag_node_name + ':' + self.TYPE_TIME_MS + ':Output02Value'
         output_value03_tag = tag_node_name + ':' + self.TYPE_FLOAT + ':Output03Value'
@@ -301,12 +317,14 @@ class Node(DpgNodeABC):
         # 画像取得
         frame = node_image_dict.get(connection_info_src, None)
 
+        digit_width = int(dpg_get_value(input_value02_tag))
+
         # 計測開始
         if frame is not None and use_pref_counter:
             start_time = time.perf_counter()
 
         if frame is not None:
-            frame, digits = image_process(frame)
+            frame, digits = image_process(frame, digit_width)
             value = 0
             for i in digits:
                 value = value * 10 + i
@@ -336,15 +354,23 @@ class Node(DpgNodeABC):
 
     def get_setting_dict(self, node_id):
         tag_node_name = str(node_id) + ':' + self.node_tag
+        input_value02_tag = tag_node_name + ':' + self.TYPE_INT + ':Input02Value'
+        digit_width = dpg_get_value(input_value02_tag)
 
         pos = dpg.get_item_pos(tag_node_name)
 
         setting_dict = {}
         setting_dict['ver'] = self._ver
         setting_dict['pos'] = pos
+        setting_dict[input_value02_tag] = digit_width
 
         return setting_dict
 
     def set_setting_dict(self, node_id, setting_dict):
-        pass
+        tag_node_name = str(node_id) + ':' + self.node_tag
+        input_value02_tag = tag_node_name + ':' + self.TYPE_INT + ':Input02Value'
+
+        digit_width = int(setting_dict[input_value02_tag])
+
+        dpg_set_value(input_value02_tag, digit_width)
 
